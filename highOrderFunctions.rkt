@@ -4,9 +4,14 @@
   (map (lambda (t) (* (- t 32) (/ 5 9)))
        temps))
 
-(define (check-temps1 lst ) true)
+(define (check-temps1 lst )
+  (check-temps lst 5 95)
+  )
 
-(define (check-temps lst ) true)
+(define (check-temps lst low high )
+  (if (empty? lst) true
+      (andmap (lambda (x) (and (> x (- low 1)) (< x (+ high 1)))) lst))
+  )
 
 (define (convert lst )
   (foldr (lambda (x y) (+ x (* y 10))) 0 lst)
@@ -22,8 +27,14 @@
       )
   )
 
-(define (eliminate-larger lst ) true)
+(define (eliminate-larger lst )
+  ( if(empty? lst) empty
+                 (if (empty? (filter (lambda (x) (< x (first lst))) (rest lst)))
+                     (cons (first lst) (eliminate-larger (rest lst)))
+                     (eliminate-larger (rest lst))))
+   )
 
-(define (curry2 x)
-  (lambda (x) (lambda (y) (func x y)))
+(define (curry2 function)
+  (lambda (x) (lambda (y) (function x y)))
   )
+ 
